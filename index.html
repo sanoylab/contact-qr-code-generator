@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Contact QR Code Generator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    <style>
+      #qrcode {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <h1 class="text-center mb-4">Contact QR Code Generator</h1>
+          <form>
+            <div class="form-group">
+              <label for="name">Full Name:</label>
+              <input type="text" class="form-control" id="name" name="name">
+            </div>
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" class="form-control" id="email" name="email">
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone:</label>
+              <input type="tel" class="form-control" id="phone" name="phone">
+            </div>
+            <button type="button" class="btn btn-primary btn-block" onclick="generateQRCode()">Generate</button>
+          </form>
+          <div id="qrcode" class="text-center"></div>
+        </div>
+      </div>
+    </div>
+    <script>
+      function generateQRCode() {
+        var name = document.getElementById('name').value;
+        var email = document.getElementById('email').value;
+        var phone = document.getElementById('phone').value;
+        var contact = {
+          name: name,
+          email: email,
+          phone: phone
+        };
+        var container = document.getElementById('qrcode');
+        container.innerHTML = ""; // Clear the previously generated QR code
+        document.getElementById('name').value = "";
+        document.getElementById('email').value = "";
+        document.getElementById('phone').value = "";
+        var text = "BEGIN:VCARD\n" +
+                   "VERSION:3.0\n" +
+                   "N:" + contact.name + "\n" +
+                   "TEL;TYPE=CELL:" + contact.phone + "\n" +
+                   "EMAIL:" + contact.email + "\n" +
+                   "END:VCARD";
+        new QRCode(container, {
+          text: text,
+          width: 256,
+          height: 256,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel : QRCode.CorrectLevel.H
+        });
+      }
+    </script>
+  </body>
+</html>
